@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7-Game</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background:  url('/JavaScript/7up7down.avif') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-y: visible;
+        }
+        .main{
+            display: flex;
+            justify-content: center;
+        }
+        h2{
+            margin-top: 50px;
+            color: darkorchid;
+            text-align: center;
+            font-size: 58px;
+            text-shadow: 1px;
+            font-family: 'Bungee', sans-serif;
+        }
+        .choices{
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+        .seven-up,.seven,.seven-down{
+            height: 200px;
+            width: 200px;
+            margin-top: 100px;
+            border: 1px solid black;
+            background-color: magenta;
+            font-size: 3rem;
+            color: white;
+            text-align: center;
+            display: flex;
+            align-items: center;
+        }
+        .btn{
+            height: 50px;
+            width: 80px;
+            position: absolute;
+            top: 600px;
+            left: 700px;
+            font-size: 18px;
+        }
+        input{
+            height: 45px;
+            width: 160px;
+            position: absolute;
+            left: -160px;
+            font-size: 16px;
+        }
+        .imgs{
+            margin-top: 50px;
+            margin-left: -150px;
+            display: flex;
+            height: 140px;
+            width: 140px;
+        }
+        h1{
+            position: absolute;
+            top:500px;
+            left:550px;
+            background-color: lavenderblush;
+            color: mediumorchid;
+            border: 2px solid mediumorchid;
+        }
+        .b{
+            width:170px;
+            height:50px;
+        }
+    </style>
+</head>
+<body>
+    <h2>7-UP & 7-Down</h2>
+    <div class="main">
+        <div class="choices">
+            <div class="seven-up" onclick="choice_7up()">
+                7-Up
+            </div>
+            <div class="seven" onclick="choice_7()">
+                7
+            </div>
+            <div class="seven-down" onclick="choice_7down()">
+                7-Down
+            </div>
+        </div>
+    </div>
+    <div class="btn">
+        <input type="text" id="inp" ><button onclick="roll()" class="b">Submit</button>
+        <div class="imgs">
+            <img src="" alt="" class="img1">
+            <img src="" alt="" class="img2">
+        </div>
+    </div>
+    <h1 id="h1"></h1>
+    <script>
+    let choice=""
+        document.getElementsByClassName('seven-up')[0].addEventListener('onclick',choice_7up)
+        document.getElementsByClassName('seven')[0].addEventListener('onclick',choice_7)
+        document.getElementsByClassName('seven-up')[0].addEventListener('onclick',choice_7down)
+        function choice_7up(){
+            choice="choice_7up"
+            document.getElementsByClassName('seven-up')[0].style.display="block"
+            document.getElementsByClassName('seven')[0].style.display="none"
+            document.getElementsByClassName('seven-down')[0].style.display="none"
+        }
+        function choice_7(){
+            choice="choice"
+            document.getElementsByClassName('seven-up')[0].style.display="none"
+            document.getElementsByClassName('seven')[0].style.display="block"
+            document.getElementsByClassName('seven-down')[0].style.display="none"
+        }
+        function choice_7down(){
+            choice="choice_7down"
+            document.getElementsByClassName('seven-up')[0].style.display="none"
+            document.getElementsByClassName('seven')[0].style.display="none"
+            document.getElementsByClassName('seven-down')[0].style.display="block"
+        }
+        function dice(){
+            const audio = new Audio("dice.mp3");
+            audio.play();
+        }
+        function win(){
+            const audio = new Audio("win.mp3");
+            audio.play();
+        }
+        let balance=0
+        let array=[1,2,3,4,5,6]
+        function roll(){
+            dice();
+            let balance=0
+            let bet=document.getElementById('inp').value
+            N=Math.floor(Math.random()*6)
+            M=Math.floor(Math.random()*6)
+            document.getElementsByClassName('img1')[0].setAttribute('src',`d${array[N]}.jpg`)
+            document.getElementsByClassName('img2')[0].setAttribute('src',`d${array[M]}.jpg`)
+            
+            if(array[N]+array[M]>7 && choice=="choice_7up"){
+                // win();
+                document.getElementById('h1').innerHTML=`You won balance ${balance+(bet*2)}`
+                document.getElementsByClassName('seven')[0].style.display='block'
+                document.getElementsByClassName('seven-down')[0].style.display='block'
+            }
+            else if(array[N]+array[M]<7 && choice=="choice_7down"){
+                // win();
+                document.getElementById('h1').innerHTML=`You won balance ${balance+(bet*2)}`
+                document.getElementsByClassName('seven-Up')[0].style.display='block'
+                document.getElementsByClassName('seven')[0].style.display='block'
+            }
+            else if(array[N]+array[M]==7 && choice=="choice"){
+                // win();
+                document.getElementById('h1').innerHTML=`You won balance ${balance+(bet*3)}`
+                document.getElementsByClassName('seven-Up')[0].style.display='block'
+                document.getElementsByClassName('seven-down')[0].style.display='block'
+            }
+            else{
+                document.getElementById('h1').innerHTML=`you Lost balance ${balance=balance-bet}`
+                win();
+            }
+            
+        }
+    </script>
+</body>
+</html>
